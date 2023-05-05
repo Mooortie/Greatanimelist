@@ -1,0 +1,25 @@
+﻿@using Greatanimelist.Shared;
+@page "/animelist"
+
+@inject HttpClient _client;
+
+<h3>Your full anime list</h3>
+
+
+
+<EditForm Model="CurrentAnime" OnSubmit="SaveAnime">
+	<InputText @bind-Value="CurrentAnime.Name"> Name</InputText>
+	<InputNumber @bind-Value="CurrentAnime.EpisodeCount"> EpisodeCount</InputNumber>
+	<InputNumber @bind-Value="CurrentAnime.SeenEpisodes"> SeenEpisodes</InputNumber>
+	<button class="btn btn-secondary">Save</button>
+</EditForm>
+
+<Virtualize Items="Anime.OrderBy(a => a.Name).ToList()" Context="Anime">
+	<div class="card">
+		<div class="card-header">@Anime.Name</div>
+		<div class="card-header">@Anime.EpisodeCount</div>
+		<div class="card-header">@Anime.SeenEpisodes</div>
+	</div>
+</Virtualize>
+
+

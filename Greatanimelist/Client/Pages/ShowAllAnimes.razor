@@ -1,0 +1,33 @@
+﻿@page "/showallanimes"
+@using Greatanimelist.Shared;
+
+@inject HttpClient _client
+
+<h1>All Animes</h1>
+
+@if (Animes == null)
+{
+	<p>Loading...</p>
+}
+else
+{
+	@foreach (var anime in Animes)
+	{
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">@anime.Name</h5>
+				<p class="card-text">Episodes: @anime.EpisodeCount</p>
+				<p class="card-text">Episodes Seen: @anime.SeenEpisodes</p>
+			</div>
+		</div>
+	}
+}
+
+@code {
+	private List<Anime> Animes;
+
+	protected override async Task OnInitializedAsync()
+	{
+		Animes = await _client.GetFromJsonAsync<List<Anime>>("/AllAnimes");
+	}
+}
